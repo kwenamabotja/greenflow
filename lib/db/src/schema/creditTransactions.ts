@@ -9,6 +9,8 @@ export const creditTransactionsTable = pgTable("credit_transactions", {
   reason: text("reason").notNull(),
   co2SavedKg: real("co2_saved_kg").notNull().default(0),
   mode: text("mode").notNull().default("mixed"),
+  modeMultiplier: real("mode_multiplier").notNull().default(1),
+  baseCredits: integer("base_credits").notNull().default(0),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

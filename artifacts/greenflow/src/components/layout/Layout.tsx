@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, Map, Bus, Leaf, Wallet, MapPin, LogOut, ChevronDown } from "lucide-react";
+import { LayoutDashboard, Map, Bus, Leaf, Wallet, MapPin, Brain, Globe, LogOut, ChevronDown, Trophy, Zap, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,8 +15,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   
   // In development mode without Clerk, these will be undefined
   // This component now works with or without Clerk authentication
-  const user = undefined;
-  const signOut = undefined;
+  const user: any = undefined;
+  const signOut: any = undefined;
 
   const navItems = [
     { href: "/dashboard", label: "Command Center", icon: LayoutDashboard },
@@ -24,7 +24,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
     { href: "/transit", label: "Live Transit", icon: Bus },
     { href: "/carbon", label: "Carbon Ledger", icon: Leaf },
     { href: "/green-wallet", label: "Green Wallet", icon: Wallet },
+    { href: "/gps-tracking", label: "Live GPS Tracking", icon: Navigation },
     { href: "/hubs", label: "Transit Hubs", icon: MapPin },
+    { href: "/community", label: "Community Impact", icon: Globe },
+    { href: "/challenges", label: "Challenges", icon: Zap },
+    { href: "/leaderboards", label: "Leaderboards", icon: Trophy },
+    { href: "/ai-insights", label: "AI Insights", icon: Brain },
   ];
 
   const initials = user

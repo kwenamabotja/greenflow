@@ -1,0 +1,1 @@
+{"version":3,"file":"routePrediction.d.ts","sourceRoot":"","sources":["../../../src/generated/types/routePrediction.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AACH,OAAO,KAAK,EAAE,yBAAyB,EAAE,MAAM,6BAA6B,CAAC;AAE7E,MAAM,WAAW,eAAe;IAC9B,UAAU,CAAC,EAAE,yBAAyB,CAAC;IACvC,WAAW,CAAC,EAAE,IAAI,CAAC;IACnB,KAAK,CAAC,EAAE,MAAM,CAAC;CAChB"}

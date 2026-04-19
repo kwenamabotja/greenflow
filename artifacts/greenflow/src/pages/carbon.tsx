@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Leaf, Trophy, Calculator, Trees, Activity, Medal } from "lucide-react";
+import { IncentiveShowcase } from "@/components/incentive-showcase";
 
 type TransitMode = "gautrain" | "virtual_taxi" | "metrobus";
 
@@ -31,7 +32,7 @@ export default function CarbonLedger() {
     calculate.mutate({
       data: {
         distanceKm: parseFloat(distance) || 0,
-        mode: mode
+        mode: mode || "gautrain"
       }
     });
   };
@@ -192,6 +193,19 @@ export default function CarbonLedger() {
           </CardContent>
         </Card>
       </div>
+
+      {/* TRANSIT PREFERENCE INCENTIVES SHOWCASE */}
+      <Card className="border-2 border-green-200 bg-green-50/50">
+        <CardHeader>
+          <CardTitle className="text-green-900">Transit Preference Incentives</CardTitle>
+          <CardDescription>
+            We don't just track sustainability—we actively reward it
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <IncentiveShowcase />
+        </CardContent>
+      </Card>
     </div>
   );
 }

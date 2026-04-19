@@ -1210,4 +1210,864 @@ export declare const GetDashboardSummaryResponse: zod.ZodObject<{
     gautrainTripsToday: number;
     virtualTaxiTripsToday: number;
 }>;
+/**
+ * Returns predicted traffic congestion levels across Gauteng
+ * @summary AI-powered congestion predictions
+ */
+export declare const getCongestionPredictionsResponsePredictionsItemConfidenceMin = 0;
+export declare const getCongestionPredictionsResponsePredictionsItemConfidenceMax = 1;
+export declare const GetCongestionPredictionsResponse: zod.ZodObject<{
+    predictions: zod.ZodOptional<zod.ZodArray<zod.ZodObject<{
+        location: zod.ZodOptional<zod.ZodString>;
+        latitude: zod.ZodOptional<zod.ZodNumber>;
+        longitude: zod.ZodOptional<zod.ZodNumber>;
+        predictedLevel: zod.ZodOptional<zod.ZodEnum<["low", "medium", "high", "severe"]>>;
+        confidence: zod.ZodOptional<zod.ZodNumber>;
+        timeWindow: zod.ZodOptional<zod.ZodObject<{
+            start: zod.ZodOptional<zod.ZodDate>;
+            end: zod.ZodOptional<zod.ZodDate>;
+        }, "strip", zod.ZodTypeAny, {
+            start?: Date | undefined;
+            end?: Date | undefined;
+        }, {
+            start?: Date | undefined;
+            end?: Date | undefined;
+        }>>;
+        factors: zod.ZodOptional<zod.ZodObject<{
+            timeOfDay: zod.ZodOptional<zod.ZodString>;
+            dayOfWeek: zod.ZodOptional<zod.ZodString>;
+            weather: zod.ZodOptional<zod.ZodString>;
+            events: zod.ZodOptional<zod.ZodArray<zod.ZodString, "many">>;
+            historicalAverage: zod.ZodOptional<zod.ZodNumber>;
+        }, "strip", zod.ZodTypeAny, {
+            timeOfDay?: string | undefined;
+            dayOfWeek?: string | undefined;
+            weather?: string | undefined;
+            events?: string[] | undefined;
+            historicalAverage?: number | undefined;
+        }, {
+            timeOfDay?: string | undefined;
+            dayOfWeek?: string | undefined;
+            weather?: string | undefined;
+            events?: string[] | undefined;
+            historicalAverage?: number | undefined;
+        }>>;
+    }, "strip", zod.ZodTypeAny, {
+        latitude?: number | undefined;
+        longitude?: number | undefined;
+        location?: string | undefined;
+        predictedLevel?: "low" | "medium" | "high" | "severe" | undefined;
+        confidence?: number | undefined;
+        timeWindow?: {
+            start?: Date | undefined;
+            end?: Date | undefined;
+        } | undefined;
+        factors?: {
+            timeOfDay?: string | undefined;
+            dayOfWeek?: string | undefined;
+            weather?: string | undefined;
+            events?: string[] | undefined;
+            historicalAverage?: number | undefined;
+        } | undefined;
+    }, {
+        latitude?: number | undefined;
+        longitude?: number | undefined;
+        location?: string | undefined;
+        predictedLevel?: "low" | "medium" | "high" | "severe" | undefined;
+        confidence?: number | undefined;
+        timeWindow?: {
+            start?: Date | undefined;
+            end?: Date | undefined;
+        } | undefined;
+        factors?: {
+            timeOfDay?: string | undefined;
+            dayOfWeek?: string | undefined;
+            weather?: string | undefined;
+            events?: string[] | undefined;
+            historicalAverage?: number | undefined;
+        } | undefined;
+    }>, "many">>;
+    generatedAt: zod.ZodOptional<zod.ZodDate>;
+    model: zod.ZodOptional<zod.ZodString>;
+}, "strip", zod.ZodTypeAny, {
+    predictions?: {
+        latitude?: number | undefined;
+        longitude?: number | undefined;
+        location?: string | undefined;
+        predictedLevel?: "low" | "medium" | "high" | "severe" | undefined;
+        confidence?: number | undefined;
+        timeWindow?: {
+            start?: Date | undefined;
+            end?: Date | undefined;
+        } | undefined;
+        factors?: {
+            timeOfDay?: string | undefined;
+            dayOfWeek?: string | undefined;
+            weather?: string | undefined;
+            events?: string[] | undefined;
+            historicalAverage?: number | undefined;
+        } | undefined;
+    }[] | undefined;
+    generatedAt?: Date | undefined;
+    model?: string | undefined;
+}, {
+    predictions?: {
+        latitude?: number | undefined;
+        longitude?: number | undefined;
+        location?: string | undefined;
+        predictedLevel?: "low" | "medium" | "high" | "severe" | undefined;
+        confidence?: number | undefined;
+        timeWindow?: {
+            start?: Date | undefined;
+            end?: Date | undefined;
+        } | undefined;
+        factors?: {
+            timeOfDay?: string | undefined;
+            dayOfWeek?: string | undefined;
+            weather?: string | undefined;
+            events?: string[] | undefined;
+            historicalAverage?: number | undefined;
+        } | undefined;
+    }[] | undefined;
+    generatedAt?: Date | undefined;
+    model?: string | undefined;
+}>;
+/**
+ * Returns predicted demand for virtual taxis at key locations
+ * @summary Virtual taxi demand predictions
+ */
+export declare const getDemandPredictionsResponsePredictionsItemPredictedDemandMin = 0;
+export declare const getDemandPredictionsResponsePredictionsItemPredictedDemandMax = 100;
+export declare const getDemandPredictionsResponsePredictionsItemConfidenceMin = 0;
+export declare const getDemandPredictionsResponsePredictionsItemConfidenceMax = 1;
+export declare const GetDemandPredictionsResponse: zod.ZodObject<{
+    predictions: zod.ZodOptional<zod.ZodArray<zod.ZodObject<{
+        locationId: zod.ZodOptional<zod.ZodString>;
+        locationName: zod.ZodOptional<zod.ZodString>;
+        latitude: zod.ZodOptional<zod.ZodNumber>;
+        longitude: zod.ZodOptional<zod.ZodNumber>;
+        predictedDemand: zod.ZodOptional<zod.ZodNumber>;
+        confidence: zod.ZodOptional<zod.ZodNumber>;
+        timeWindow: zod.ZodOptional<zod.ZodString>;
+        factors: zod.ZodOptional<zod.ZodObject<{
+            historicalDemand: zod.ZodOptional<zod.ZodNumber>;
+            weather: zod.ZodOptional<zod.ZodString>;
+            events: zod.ZodOptional<zod.ZodArray<zod.ZodString, "many">>;
+            nearbyTransit: zod.ZodOptional<zod.ZodArray<zod.ZodString, "many">>;
+        }, "strip", zod.ZodTypeAny, {
+            weather?: string | undefined;
+            events?: string[] | undefined;
+            historicalDemand?: number | undefined;
+            nearbyTransit?: string[] | undefined;
+        }, {
+            weather?: string | undefined;
+            events?: string[] | undefined;
+            historicalDemand?: number | undefined;
+            nearbyTransit?: string[] | undefined;
+        }>>;
+    }, "strip", zod.ZodTypeAny, {
+        latitude?: number | undefined;
+        longitude?: number | undefined;
+        confidence?: number | undefined;
+        timeWindow?: string | undefined;
+        factors?: {
+            weather?: string | undefined;
+            events?: string[] | undefined;
+            historicalDemand?: number | undefined;
+            nearbyTransit?: string[] | undefined;
+        } | undefined;
+        locationId?: string | undefined;
+        locationName?: string | undefined;
+        predictedDemand?: number | undefined;
+    }, {
+        latitude?: number | undefined;
+        longitude?: number | undefined;
+        confidence?: number | undefined;
+        timeWindow?: string | undefined;
+        factors?: {
+            weather?: string | undefined;
+            events?: string[] | undefined;
+            historicalDemand?: number | undefined;
+            nearbyTransit?: string[] | undefined;
+        } | undefined;
+        locationId?: string | undefined;
+        locationName?: string | undefined;
+        predictedDemand?: number | undefined;
+    }>, "many">>;
+    generatedAt: zod.ZodOptional<zod.ZodDate>;
+    model: zod.ZodOptional<zod.ZodString>;
+}, "strip", zod.ZodTypeAny, {
+    predictions?: {
+        latitude?: number | undefined;
+        longitude?: number | undefined;
+        confidence?: number | undefined;
+        timeWindow?: string | undefined;
+        factors?: {
+            weather?: string | undefined;
+            events?: string[] | undefined;
+            historicalDemand?: number | undefined;
+            nearbyTransit?: string[] | undefined;
+        } | undefined;
+        locationId?: string | undefined;
+        locationName?: string | undefined;
+        predictedDemand?: number | undefined;
+    }[] | undefined;
+    generatedAt?: Date | undefined;
+    model?: string | undefined;
+}, {
+    predictions?: {
+        latitude?: number | undefined;
+        longitude?: number | undefined;
+        confidence?: number | undefined;
+        timeWindow?: string | undefined;
+        factors?: {
+            weather?: string | undefined;
+            events?: string[] | undefined;
+            historicalDemand?: number | undefined;
+            nearbyTransit?: string[] | undefined;
+        } | undefined;
+        locationId?: string | undefined;
+        locationName?: string | undefined;
+        predictedDemand?: number | undefined;
+    }[] | undefined;
+    generatedAt?: Date | undefined;
+    model?: string | undefined;
+}>;
+/**
+ * Returns optimized route predictions with carbon impact analysis
+ * @summary AI-powered route optimization
+ */
+export declare const PredictRouteBody: zod.ZodObject<{
+    originLat: zod.ZodNumber;
+    originLng: zod.ZodNumber;
+    destLat: zod.ZodNumber;
+    destLng: zod.ZodNumber;
+}, "strip", zod.ZodTypeAny, {
+    originLat: number;
+    originLng: number;
+    destLat: number;
+    destLng: number;
+}, {
+    originLat: number;
+    originLng: number;
+    destLat: number;
+    destLng: number;
+}>;
+export declare const predictRouteResponsePredictionConfidenceMin = 0;
+export declare const predictRouteResponsePredictionConfidenceMax = 1;
+export declare const predictRouteResponsePredictionAlternativeRoutesItemReliabilityMin = 0;
+export declare const predictRouteResponsePredictionAlternativeRoutesItemReliabilityMax = 1;
+export declare const PredictRouteResponse: zod.ZodObject<{
+    prediction: zod.ZodOptional<zod.ZodObject<{
+        routeId: zod.ZodOptional<zod.ZodString>;
+        origin: zod.ZodOptional<zod.ZodString>;
+        destination: zod.ZodOptional<zod.ZodString>;
+        predictedDuration: zod.ZodOptional<zod.ZodNumber>;
+        predictedCarbonSavings: zod.ZodOptional<zod.ZodNumber>;
+        confidence: zod.ZodOptional<zod.ZodNumber>;
+        alternativeRoutes: zod.ZodOptional<zod.ZodArray<zod.ZodObject<{
+            mode: zod.ZodOptional<zod.ZodString>;
+            duration: zod.ZodOptional<zod.ZodNumber>;
+            carbonImpact: zod.ZodOptional<zod.ZodNumber>;
+            reliability: zod.ZodOptional<zod.ZodNumber>;
+        }, "strip", zod.ZodTypeAny, {
+            mode?: string | undefined;
+            duration?: number | undefined;
+            carbonImpact?: number | undefined;
+            reliability?: number | undefined;
+        }, {
+            mode?: string | undefined;
+            duration?: number | undefined;
+            carbonImpact?: number | undefined;
+            reliability?: number | undefined;
+        }>, "many">>;
+    }, "strip", zod.ZodTypeAny, {
+        routeId?: string | undefined;
+        destination?: string | undefined;
+        origin?: string | undefined;
+        confidence?: number | undefined;
+        predictedDuration?: number | undefined;
+        predictedCarbonSavings?: number | undefined;
+        alternativeRoutes?: {
+            mode?: string | undefined;
+            duration?: number | undefined;
+            carbonImpact?: number | undefined;
+            reliability?: number | undefined;
+        }[] | undefined;
+    }, {
+        routeId?: string | undefined;
+        destination?: string | undefined;
+        origin?: string | undefined;
+        confidence?: number | undefined;
+        predictedDuration?: number | undefined;
+        predictedCarbonSavings?: number | undefined;
+        alternativeRoutes?: {
+            mode?: string | undefined;
+            duration?: number | undefined;
+            carbonImpact?: number | undefined;
+            reliability?: number | undefined;
+        }[] | undefined;
+    }>>;
+    generatedAt: zod.ZodOptional<zod.ZodDate>;
+    model: zod.ZodOptional<zod.ZodString>;
+}, "strip", zod.ZodTypeAny, {
+    generatedAt?: Date | undefined;
+    model?: string | undefined;
+    prediction?: {
+        routeId?: string | undefined;
+        destination?: string | undefined;
+        origin?: string | undefined;
+        confidence?: number | undefined;
+        predictedDuration?: number | undefined;
+        predictedCarbonSavings?: number | undefined;
+        alternativeRoutes?: {
+            mode?: string | undefined;
+            duration?: number | undefined;
+            carbonImpact?: number | undefined;
+            reliability?: number | undefined;
+        }[] | undefined;
+    } | undefined;
+}, {
+    generatedAt?: Date | undefined;
+    model?: string | undefined;
+    prediction?: {
+        routeId?: string | undefined;
+        destination?: string | undefined;
+        origin?: string | undefined;
+        confidence?: number | undefined;
+        predictedDuration?: number | undefined;
+        predictedCarbonSavings?: number | undefined;
+        alternativeRoutes?: {
+            mode?: string | undefined;
+            duration?: number | undefined;
+            carbonImpact?: number | undefined;
+            reliability?: number | undefined;
+        }[] | undefined;
+    } | undefined;
+}>;
+/**
+ * Returns predicted load shedding events across Gauteng
+ * @summary Power outage predictions
+ */
+export declare const getPowerOutagePredictionsResponsePredictionsItemProbabilityMin = 0;
+export declare const getPowerOutagePredictionsResponsePredictionsItemProbabilityMax = 1;
+export declare const getPowerOutagePredictionsResponsePredictionsItemConfidenceMin = 0;
+export declare const getPowerOutagePredictionsResponsePredictionsItemConfidenceMax = 1;
+export declare const GetPowerOutagePredictionsResponse: zod.ZodObject<{
+    predictions: zod.ZodOptional<zod.ZodArray<zod.ZodObject<{
+        area: zod.ZodOptional<zod.ZodString>;
+        probability: zod.ZodOptional<zod.ZodNumber>;
+        predictedStage: zod.ZodOptional<zod.ZodNumber>;
+        timeWindow: zod.ZodOptional<zod.ZodString>;
+        confidence: zod.ZodOptional<zod.ZodNumber>;
+    }, "strip", zod.ZodTypeAny, {
+        confidence?: number | undefined;
+        timeWindow?: string | undefined;
+        area?: string | undefined;
+        probability?: number | undefined;
+        predictedStage?: number | undefined;
+    }, {
+        confidence?: number | undefined;
+        timeWindow?: string | undefined;
+        area?: string | undefined;
+        probability?: number | undefined;
+        predictedStage?: number | undefined;
+    }>, "many">>;
+    generatedAt: zod.ZodOptional<zod.ZodDate>;
+    model: zod.ZodOptional<zod.ZodString>;
+    disclaimer: zod.ZodOptional<zod.ZodString>;
+}, "strip", zod.ZodTypeAny, {
+    predictions?: {
+        confidence?: number | undefined;
+        timeWindow?: string | undefined;
+        area?: string | undefined;
+        probability?: number | undefined;
+        predictedStage?: number | undefined;
+    }[] | undefined;
+    generatedAt?: Date | undefined;
+    model?: string | undefined;
+    disclaimer?: string | undefined;
+}, {
+    predictions?: {
+        confidence?: number | undefined;
+        timeWindow?: string | undefined;
+        area?: string | undefined;
+        probability?: number | undefined;
+        predictedStage?: number | undefined;
+    }[] | undefined;
+    generatedAt?: Date | undefined;
+    model?: string | undefined;
+    disclaimer?: string | undefined;
+}>;
+/**
+ * Returns comprehensive AI-powered insights for platform operations
+ * @summary AI insights dashboard
+ */
+export declare const getAiDashboardResponseInsightsCongestionHighRiskAreasItemConfidenceMin = 0;
+export declare const getAiDashboardResponseInsightsCongestionHighRiskAreasItemConfidenceMax = 1;
+export declare const getAiDashboardResponseInsightsDemandHighDemandLocationsItemPredictedDemandMin = 0;
+export declare const getAiDashboardResponseInsightsDemandHighDemandLocationsItemPredictedDemandMax = 100;
+export declare const getAiDashboardResponseInsightsDemandHighDemandLocationsItemConfidenceMin = 0;
+export declare const getAiDashboardResponseInsightsDemandHighDemandLocationsItemConfidenceMax = 1;
+export declare const getAiDashboardResponseInsightsPowerHighRiskAreasItemProbabilityMin = 0;
+export declare const getAiDashboardResponseInsightsPowerHighRiskAreasItemProbabilityMax = 1;
+export declare const getAiDashboardResponseInsightsPowerHighRiskAreasItemConfidenceMin = 0;
+export declare const getAiDashboardResponseInsightsPowerHighRiskAreasItemConfidenceMax = 1;
+export declare const GetAiDashboardResponse: zod.ZodObject<{
+    insights: zod.ZodOptional<zod.ZodObject<{
+        congestion: zod.ZodOptional<zod.ZodObject<{
+            highRiskAreas: zod.ZodOptional<zod.ZodArray<zod.ZodObject<{
+                location: zod.ZodOptional<zod.ZodString>;
+                latitude: zod.ZodOptional<zod.ZodNumber>;
+                longitude: zod.ZodOptional<zod.ZodNumber>;
+                predictedLevel: zod.ZodOptional<zod.ZodEnum<["low", "medium", "high", "severe"]>>;
+                confidence: zod.ZodOptional<zod.ZodNumber>;
+                timeWindow: zod.ZodOptional<zod.ZodObject<{
+                    start: zod.ZodOptional<zod.ZodDate>;
+                    end: zod.ZodOptional<zod.ZodDate>;
+                }, "strip", zod.ZodTypeAny, {
+                    start?: Date | undefined;
+                    end?: Date | undefined;
+                }, {
+                    start?: Date | undefined;
+                    end?: Date | undefined;
+                }>>;
+                factors: zod.ZodOptional<zod.ZodObject<{
+                    timeOfDay: zod.ZodOptional<zod.ZodString>;
+                    dayOfWeek: zod.ZodOptional<zod.ZodString>;
+                    weather: zod.ZodOptional<zod.ZodString>;
+                    events: zod.ZodOptional<zod.ZodArray<zod.ZodString, "many">>;
+                    historicalAverage: zod.ZodOptional<zod.ZodNumber>;
+                }, "strip", zod.ZodTypeAny, {
+                    timeOfDay?: string | undefined;
+                    dayOfWeek?: string | undefined;
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalAverage?: number | undefined;
+                }, {
+                    timeOfDay?: string | undefined;
+                    dayOfWeek?: string | undefined;
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalAverage?: number | undefined;
+                }>>;
+            }, "strip", zod.ZodTypeAny, {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                location?: string | undefined;
+                predictedLevel?: "low" | "medium" | "high" | "severe" | undefined;
+                confidence?: number | undefined;
+                timeWindow?: {
+                    start?: Date | undefined;
+                    end?: Date | undefined;
+                } | undefined;
+                factors?: {
+                    timeOfDay?: string | undefined;
+                    dayOfWeek?: string | undefined;
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalAverage?: number | undefined;
+                } | undefined;
+            }, {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                location?: string | undefined;
+                predictedLevel?: "low" | "medium" | "high" | "severe" | undefined;
+                confidence?: number | undefined;
+                timeWindow?: {
+                    start?: Date | undefined;
+                    end?: Date | undefined;
+                } | undefined;
+                factors?: {
+                    timeOfDay?: string | undefined;
+                    dayOfWeek?: string | undefined;
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalAverage?: number | undefined;
+                } | undefined;
+            }>, "many">>;
+            totalPredictions: zod.ZodOptional<zod.ZodNumber>;
+        }, "strip", zod.ZodTypeAny, {
+            highRiskAreas?: {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                location?: string | undefined;
+                predictedLevel?: "low" | "medium" | "high" | "severe" | undefined;
+                confidence?: number | undefined;
+                timeWindow?: {
+                    start?: Date | undefined;
+                    end?: Date | undefined;
+                } | undefined;
+                factors?: {
+                    timeOfDay?: string | undefined;
+                    dayOfWeek?: string | undefined;
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalAverage?: number | undefined;
+                } | undefined;
+            }[] | undefined;
+            totalPredictions?: number | undefined;
+        }, {
+            highRiskAreas?: {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                location?: string | undefined;
+                predictedLevel?: "low" | "medium" | "high" | "severe" | undefined;
+                confidence?: number | undefined;
+                timeWindow?: {
+                    start?: Date | undefined;
+                    end?: Date | undefined;
+                } | undefined;
+                factors?: {
+                    timeOfDay?: string | undefined;
+                    dayOfWeek?: string | undefined;
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalAverage?: number | undefined;
+                } | undefined;
+            }[] | undefined;
+            totalPredictions?: number | undefined;
+        }>>;
+        demand: zod.ZodOptional<zod.ZodObject<{
+            highDemandLocations: zod.ZodOptional<zod.ZodArray<zod.ZodObject<{
+                locationId: zod.ZodOptional<zod.ZodString>;
+                locationName: zod.ZodOptional<zod.ZodString>;
+                latitude: zod.ZodOptional<zod.ZodNumber>;
+                longitude: zod.ZodOptional<zod.ZodNumber>;
+                predictedDemand: zod.ZodOptional<zod.ZodNumber>;
+                confidence: zod.ZodOptional<zod.ZodNumber>;
+                timeWindow: zod.ZodOptional<zod.ZodString>;
+                factors: zod.ZodOptional<zod.ZodObject<{
+                    historicalDemand: zod.ZodOptional<zod.ZodNumber>;
+                    weather: zod.ZodOptional<zod.ZodString>;
+                    events: zod.ZodOptional<zod.ZodArray<zod.ZodString, "many">>;
+                    nearbyTransit: zod.ZodOptional<zod.ZodArray<zod.ZodString, "many">>;
+                }, "strip", zod.ZodTypeAny, {
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalDemand?: number | undefined;
+                    nearbyTransit?: string[] | undefined;
+                }, {
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalDemand?: number | undefined;
+                    nearbyTransit?: string[] | undefined;
+                }>>;
+            }, "strip", zod.ZodTypeAny, {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                factors?: {
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalDemand?: number | undefined;
+                    nearbyTransit?: string[] | undefined;
+                } | undefined;
+                locationId?: string | undefined;
+                locationName?: string | undefined;
+                predictedDemand?: number | undefined;
+            }, {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                factors?: {
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalDemand?: number | undefined;
+                    nearbyTransit?: string[] | undefined;
+                } | undefined;
+                locationId?: string | undefined;
+                locationName?: string | undefined;
+                predictedDemand?: number | undefined;
+            }>, "many">>;
+            averageDemand: zod.ZodOptional<zod.ZodNumber>;
+        }, "strip", zod.ZodTypeAny, {
+            highDemandLocations?: {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                factors?: {
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalDemand?: number | undefined;
+                    nearbyTransit?: string[] | undefined;
+                } | undefined;
+                locationId?: string | undefined;
+                locationName?: string | undefined;
+                predictedDemand?: number | undefined;
+            }[] | undefined;
+            averageDemand?: number | undefined;
+        }, {
+            highDemandLocations?: {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                factors?: {
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalDemand?: number | undefined;
+                    nearbyTransit?: string[] | undefined;
+                } | undefined;
+                locationId?: string | undefined;
+                locationName?: string | undefined;
+                predictedDemand?: number | undefined;
+            }[] | undefined;
+            averageDemand?: number | undefined;
+        }>>;
+        power: zod.ZodOptional<zod.ZodObject<{
+            highRiskAreas: zod.ZodOptional<zod.ZodArray<zod.ZodObject<{
+                area: zod.ZodOptional<zod.ZodString>;
+                probability: zod.ZodOptional<zod.ZodNumber>;
+                predictedStage: zod.ZodOptional<zod.ZodNumber>;
+                timeWindow: zod.ZodOptional<zod.ZodString>;
+                confidence: zod.ZodOptional<zod.ZodNumber>;
+            }, "strip", zod.ZodTypeAny, {
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                area?: string | undefined;
+                probability?: number | undefined;
+                predictedStage?: number | undefined;
+            }, {
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                area?: string | undefined;
+                probability?: number | undefined;
+                predictedStage?: number | undefined;
+            }>, "many">>;
+            averageProbability: zod.ZodOptional<zod.ZodNumber>;
+        }, "strip", zod.ZodTypeAny, {
+            highRiskAreas?: {
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                area?: string | undefined;
+                probability?: number | undefined;
+                predictedStage?: number | undefined;
+            }[] | undefined;
+            averageProbability?: number | undefined;
+        }, {
+            highRiskAreas?: {
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                area?: string | undefined;
+                probability?: number | undefined;
+                predictedStage?: number | undefined;
+            }[] | undefined;
+            averageProbability?: number | undefined;
+        }>>;
+    }, "strip", zod.ZodTypeAny, {
+        congestion?: {
+            highRiskAreas?: {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                location?: string | undefined;
+                predictedLevel?: "low" | "medium" | "high" | "severe" | undefined;
+                confidence?: number | undefined;
+                timeWindow?: {
+                    start?: Date | undefined;
+                    end?: Date | undefined;
+                } | undefined;
+                factors?: {
+                    timeOfDay?: string | undefined;
+                    dayOfWeek?: string | undefined;
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalAverage?: number | undefined;
+                } | undefined;
+            }[] | undefined;
+            totalPredictions?: number | undefined;
+        } | undefined;
+        demand?: {
+            highDemandLocations?: {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                factors?: {
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalDemand?: number | undefined;
+                    nearbyTransit?: string[] | undefined;
+                } | undefined;
+                locationId?: string | undefined;
+                locationName?: string | undefined;
+                predictedDemand?: number | undefined;
+            }[] | undefined;
+            averageDemand?: number | undefined;
+        } | undefined;
+        power?: {
+            highRiskAreas?: {
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                area?: string | undefined;
+                probability?: number | undefined;
+                predictedStage?: number | undefined;
+            }[] | undefined;
+            averageProbability?: number | undefined;
+        } | undefined;
+    }, {
+        congestion?: {
+            highRiskAreas?: {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                location?: string | undefined;
+                predictedLevel?: "low" | "medium" | "high" | "severe" | undefined;
+                confidence?: number | undefined;
+                timeWindow?: {
+                    start?: Date | undefined;
+                    end?: Date | undefined;
+                } | undefined;
+                factors?: {
+                    timeOfDay?: string | undefined;
+                    dayOfWeek?: string | undefined;
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalAverage?: number | undefined;
+                } | undefined;
+            }[] | undefined;
+            totalPredictions?: number | undefined;
+        } | undefined;
+        demand?: {
+            highDemandLocations?: {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                factors?: {
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalDemand?: number | undefined;
+                    nearbyTransit?: string[] | undefined;
+                } | undefined;
+                locationId?: string | undefined;
+                locationName?: string | undefined;
+                predictedDemand?: number | undefined;
+            }[] | undefined;
+            averageDemand?: number | undefined;
+        } | undefined;
+        power?: {
+            highRiskAreas?: {
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                area?: string | undefined;
+                probability?: number | undefined;
+                predictedStage?: number | undefined;
+            }[] | undefined;
+            averageProbability?: number | undefined;
+        } | undefined;
+    }>>;
+    generatedAt: zod.ZodOptional<zod.ZodDate>;
+    models: zod.ZodOptional<zod.ZodArray<zod.ZodString, "many">>;
+}, "strip", zod.ZodTypeAny, {
+    generatedAt?: Date | undefined;
+    insights?: {
+        congestion?: {
+            highRiskAreas?: {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                location?: string | undefined;
+                predictedLevel?: "low" | "medium" | "high" | "severe" | undefined;
+                confidence?: number | undefined;
+                timeWindow?: {
+                    start?: Date | undefined;
+                    end?: Date | undefined;
+                } | undefined;
+                factors?: {
+                    timeOfDay?: string | undefined;
+                    dayOfWeek?: string | undefined;
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalAverage?: number | undefined;
+                } | undefined;
+            }[] | undefined;
+            totalPredictions?: number | undefined;
+        } | undefined;
+        demand?: {
+            highDemandLocations?: {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                factors?: {
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalDemand?: number | undefined;
+                    nearbyTransit?: string[] | undefined;
+                } | undefined;
+                locationId?: string | undefined;
+                locationName?: string | undefined;
+                predictedDemand?: number | undefined;
+            }[] | undefined;
+            averageDemand?: number | undefined;
+        } | undefined;
+        power?: {
+            highRiskAreas?: {
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                area?: string | undefined;
+                probability?: number | undefined;
+                predictedStage?: number | undefined;
+            }[] | undefined;
+            averageProbability?: number | undefined;
+        } | undefined;
+    } | undefined;
+    models?: string[] | undefined;
+}, {
+    generatedAt?: Date | undefined;
+    insights?: {
+        congestion?: {
+            highRiskAreas?: {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                location?: string | undefined;
+                predictedLevel?: "low" | "medium" | "high" | "severe" | undefined;
+                confidence?: number | undefined;
+                timeWindow?: {
+                    start?: Date | undefined;
+                    end?: Date | undefined;
+                } | undefined;
+                factors?: {
+                    timeOfDay?: string | undefined;
+                    dayOfWeek?: string | undefined;
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalAverage?: number | undefined;
+                } | undefined;
+            }[] | undefined;
+            totalPredictions?: number | undefined;
+        } | undefined;
+        demand?: {
+            highDemandLocations?: {
+                latitude?: number | undefined;
+                longitude?: number | undefined;
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                factors?: {
+                    weather?: string | undefined;
+                    events?: string[] | undefined;
+                    historicalDemand?: number | undefined;
+                    nearbyTransit?: string[] | undefined;
+                } | undefined;
+                locationId?: string | undefined;
+                locationName?: string | undefined;
+                predictedDemand?: number | undefined;
+            }[] | undefined;
+            averageDemand?: number | undefined;
+        } | undefined;
+        power?: {
+            highRiskAreas?: {
+                confidence?: number | undefined;
+                timeWindow?: string | undefined;
+                area?: string | undefined;
+                probability?: number | undefined;
+                predictedStage?: number | undefined;
+            }[] | undefined;
+            averageProbability?: number | undefined;
+        } | undefined;
+    } | undefined;
+    models?: string[] | undefined;
+}>;
 //# sourceMappingURL=api.d.ts.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"congestionPredictions.d.ts","sourceRoot":"","sources":["../../../src/generated/types/congestionPredictions.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AACH,OAAO,KAAK,EAAE,oBAAoB,EAAE,MAAM,wBAAwB,CAAC;AAEnE,MAAM,WAAW,qBAAqB;IACpC,WAAW,CAAC,EAAE,oBAAoB,EAAE,CAAC;IACrC,WAAW,CAAC,EAAE,IAAI,CAAC;IACnB,KAAK,CAAC,EAAE,MAAM,CAAC;CAChB"}

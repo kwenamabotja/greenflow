@@ -1,0 +1,1 @@
+{"version":3,"file":"powerOutagePrediction.d.ts","sourceRoot":"","sources":["../../../src/generated/types/powerOutagePrediction.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AAEH,MAAM,WAAW,qBAAqB;IACpC,IAAI,CAAC,EAAE,MAAM,CAAC;IACd;;;OAGG;IACH,WAAW,CAAC,EAAE,MAAM,CAAC;IACrB,cAAc,CAAC,EAAE,MAAM,CAAC;IACxB,UAAU,CAAC,EAAE,MAAM,CAAC;IACpB;;;OAGG;IACH,UAAU,CAAC,EAAE,MAAM,CAAC;CACrB"}

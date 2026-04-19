@@ -64,16 +64,16 @@ function generateSchedulesForDay(): Map<string, ScheduleEntry[]> {
   for (const route of GAUTRAIN_ROUTES) {
     const scheduleList: ScheduleEntry[] = [];
 
-    // Generate departures from 05:00 to 22:00 with varying intervals
+    // Generate departures from 05:00 to 23:59 with varying intervals
     const startHour = 5;
-    const endHour = 22;
+    const endHour = 24;
 
     for (let hour = startHour; hour < endHour; hour++) {
       const intervalMinutes = hour >= 6 && hour <= 9 ? 15 : hour >= 17 && hour <= 19 ? 12 : 20;
 
       for (let minute = 0; minute < 60; minute += intervalMinutes) {
         const departureDate = new Date(now);
-        departureDate.setHours(hour, minute, 0, 0);
+        departureDate.setHours(hour === 24 ? 23 : hour, hour === 24 ? 55 : minute, 0, 0);
 
         // Only include future schedules
         if (departureDate.getTime() > now.getTime()) {

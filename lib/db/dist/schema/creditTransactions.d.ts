@@ -105,6 +105,40 @@ export declare const creditTransactionsTable: import("drizzle-orm/pg-core").PgTa
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
+        modeMultiplier: import("drizzle-orm/pg-core").PgColumn<{
+            name: "mode_multiplier";
+            tableName: "credit_transactions";
+            dataType: "number";
+            columnType: "PgReal";
+            data: number;
+            driverParam: string | number;
+            notNull: true;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        baseCredits: import("drizzle-orm/pg-core").PgColumn<{
+            name: "base_credits";
+            tableName: "credit_transactions";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: true;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
         createdAt: import("drizzle-orm/pg-core").PgColumn<{
             name: "created_at";
             tableName: "credit_transactions";
@@ -131,6 +165,8 @@ export declare const insertCreditTransactionSchema: z.ZodObject<{
     credits: z.ZodInt;
     reason: z.ZodString;
     co2SavedKg: z.ZodOptional<z.ZodNumber>;
+    modeMultiplier: z.ZodOptional<z.ZodNumber>;
+    baseCredits: z.ZodOptional<z.ZodInt>;
 }, {
     out: {};
     in: {};

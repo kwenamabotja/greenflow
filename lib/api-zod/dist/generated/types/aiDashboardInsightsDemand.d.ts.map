@@ -1,0 +1,1 @@
+{"version":3,"file":"aiDashboardInsightsDemand.d.ts","sourceRoot":"","sources":["../../../src/generated/types/aiDashboardInsightsDemand.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AACH,OAAO,KAAK,EAAE,gBAAgB,EAAE,MAAM,oBAAoB,CAAC;AAE3D,MAAM,MAAM,yBAAyB,GAAG;IACtC,mBAAmB,CAAC,EAAE,gBAAgB,EAAE,CAAC;IACzC,aAAa,CAAC,EAAE,MAAM,CAAC;CACxB,CAAC"}

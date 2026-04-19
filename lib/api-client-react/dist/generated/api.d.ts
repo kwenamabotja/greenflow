@@ -1,5 +1,5 @@
 import type { QueryKey, UseMutationOptions, UseMutationResult, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
-import type { AddCreditsBody, CarbonCalculateRequest, CarbonSavings, CarbonStats, CreateWalletUserBody, CreditTransaction, DashboardSummary, GautrainDeparture, GpsPing, HealthStatus, LeaderboardEntry, ListHubsParams, PingResult, PowerArea, PowerStatus, RoutePlanRequest, RoutePlanResult, TransitFeed, TransitHub, VirtualTaxi, WalletUser } from "./api.schemas";
+import type { AddCreditsBody, AiDashboard, CarbonCalculateRequest, CarbonSavings, CarbonStats, CongestionPredictions, CreateWalletUserBody, CreditTransaction, DashboardSummary, DemandPredictions, GautrainDeparture, GpsPing, HealthStatus, LeaderboardEntry, ListHubsParams, PingResult, PowerArea, PowerOutagePredictions, PowerStatus, RoutePlanRequest, RoutePlanResult, RoutePrediction, RoutePredictionRequest, TransitFeed, TransitHub, VirtualTaxi, WalletUser } from "./api.schemas";
 import { customFetch } from "../custom-fetch";
 import type { ErrorType, BodyType } from "../custom-fetch";
 type AwaitedInput<T> = PromiseLike<T> | T;
@@ -479,6 +479,130 @@ export type GetDashboardSummaryQueryError = ErrorType<unknown>;
  */
 export declare function useGetDashboardSummary<TData = Awaited<ReturnType<typeof getDashboardSummary>>, TError = ErrorType<unknown>>(options?: {
     query?: UseQueryOptions<Awaited<ReturnType<typeof getDashboardSummary>>, TError, TData>;
+    request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+};
+/**
+ * Returns predicted traffic congestion levels across Gauteng
+ * @summary AI-powered congestion predictions
+ */
+export declare const getGetCongestionPredictionsUrl: () => string;
+export declare const getCongestionPredictions: (options?: RequestInit) => Promise<CongestionPredictions>;
+export declare const getGetCongestionPredictionsQueryKey: () => readonly ["/api/ai/congestion"];
+export declare const getGetCongestionPredictionsQueryOptions: <TData = Awaited<ReturnType<typeof getCongestionPredictions>>, TError = ErrorType<unknown>>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof getCongestionPredictions>>, TError, TData>;
+    request?: SecondParameter<typeof customFetch>;
+}) => UseQueryOptions<Awaited<ReturnType<typeof getCongestionPredictions>>, TError, TData> & {
+    queryKey: QueryKey;
+};
+export type GetCongestionPredictionsQueryResult = NonNullable<Awaited<ReturnType<typeof getCongestionPredictions>>>;
+export type GetCongestionPredictionsQueryError = ErrorType<unknown>;
+/**
+ * @summary AI-powered congestion predictions
+ */
+export declare function useGetCongestionPredictions<TData = Awaited<ReturnType<typeof getCongestionPredictions>>, TError = ErrorType<unknown>>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof getCongestionPredictions>>, TError, TData>;
+    request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+};
+/**
+ * Returns predicted demand for virtual taxis at key locations
+ * @summary Virtual taxi demand predictions
+ */
+export declare const getGetDemandPredictionsUrl: () => string;
+export declare const getDemandPredictions: (options?: RequestInit) => Promise<DemandPredictions>;
+export declare const getGetDemandPredictionsQueryKey: () => readonly ["/api/ai/demand"];
+export declare const getGetDemandPredictionsQueryOptions: <TData = Awaited<ReturnType<typeof getDemandPredictions>>, TError = ErrorType<unknown>>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof getDemandPredictions>>, TError, TData>;
+    request?: SecondParameter<typeof customFetch>;
+}) => UseQueryOptions<Awaited<ReturnType<typeof getDemandPredictions>>, TError, TData> & {
+    queryKey: QueryKey;
+};
+export type GetDemandPredictionsQueryResult = NonNullable<Awaited<ReturnType<typeof getDemandPredictions>>>;
+export type GetDemandPredictionsQueryError = ErrorType<unknown>;
+/**
+ * @summary Virtual taxi demand predictions
+ */
+export declare function useGetDemandPredictions<TData = Awaited<ReturnType<typeof getDemandPredictions>>, TError = ErrorType<unknown>>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof getDemandPredictions>>, TError, TData>;
+    request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+};
+/**
+ * Returns optimized route predictions with carbon impact analysis
+ * @summary AI-powered route optimization
+ */
+export declare const getPredictRouteUrl: () => string;
+export declare const predictRoute: (routePredictionRequest: RoutePredictionRequest, options?: RequestInit) => Promise<RoutePrediction>;
+export declare const getPredictRouteMutationOptions: <TError = ErrorType<void>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<Awaited<ReturnType<typeof predictRoute>>, TError, {
+        data: BodyType<RoutePredictionRequest>;
+    }, TContext>;
+    request?: SecondParameter<typeof customFetch>;
+}) => UseMutationOptions<Awaited<ReturnType<typeof predictRoute>>, TError, {
+    data: BodyType<RoutePredictionRequest>;
+}, TContext>;
+export type PredictRouteMutationResult = NonNullable<Awaited<ReturnType<typeof predictRoute>>>;
+export type PredictRouteMutationBody = BodyType<RoutePredictionRequest>;
+export type PredictRouteMutationError = ErrorType<void>;
+/**
+ * @summary AI-powered route optimization
+ */
+export declare const usePredictRoute: <TError = ErrorType<void>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<Awaited<ReturnType<typeof predictRoute>>, TError, {
+        data: BodyType<RoutePredictionRequest>;
+    }, TContext>;
+    request?: SecondParameter<typeof customFetch>;
+}) => UseMutationResult<Awaited<ReturnType<typeof predictRoute>>, TError, {
+    data: BodyType<RoutePredictionRequest>;
+}, TContext>;
+/**
+ * Returns predicted load shedding events across Gauteng
+ * @summary Power outage predictions
+ */
+export declare const getGetPowerOutagePredictionsUrl: () => string;
+export declare const getPowerOutagePredictions: (options?: RequestInit) => Promise<PowerOutagePredictions>;
+export declare const getGetPowerOutagePredictionsQueryKey: () => readonly ["/api/ai/power-outages"];
+export declare const getGetPowerOutagePredictionsQueryOptions: <TData = Awaited<ReturnType<typeof getPowerOutagePredictions>>, TError = ErrorType<unknown>>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof getPowerOutagePredictions>>, TError, TData>;
+    request?: SecondParameter<typeof customFetch>;
+}) => UseQueryOptions<Awaited<ReturnType<typeof getPowerOutagePredictions>>, TError, TData> & {
+    queryKey: QueryKey;
+};
+export type GetPowerOutagePredictionsQueryResult = NonNullable<Awaited<ReturnType<typeof getPowerOutagePredictions>>>;
+export type GetPowerOutagePredictionsQueryError = ErrorType<unknown>;
+/**
+ * @summary Power outage predictions
+ */
+export declare function useGetPowerOutagePredictions<TData = Awaited<ReturnType<typeof getPowerOutagePredictions>>, TError = ErrorType<unknown>>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof getPowerOutagePredictions>>, TError, TData>;
+    request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+};
+/**
+ * Returns comprehensive AI-powered insights for platform operations
+ * @summary AI insights dashboard
+ */
+export declare const getGetAiDashboardUrl: () => string;
+export declare const getAiDashboard: (options?: RequestInit) => Promise<AiDashboard>;
+export declare const getGetAiDashboardQueryKey: () => readonly ["/api/ai/dashboard"];
+export declare const getGetAiDashboardQueryOptions: <TData = Awaited<ReturnType<typeof getAiDashboard>>, TError = ErrorType<unknown>>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof getAiDashboard>>, TError, TData>;
+    request?: SecondParameter<typeof customFetch>;
+}) => UseQueryOptions<Awaited<ReturnType<typeof getAiDashboard>>, TError, TData> & {
+    queryKey: QueryKey;
+};
+export type GetAiDashboardQueryResult = NonNullable<Awaited<ReturnType<typeof getAiDashboard>>>;
+export type GetAiDashboardQueryError = ErrorType<unknown>;
+/**
+ * @summary AI insights dashboard
+ */
+export declare function useGetAiDashboard<TData = Awaited<ReturnType<typeof getAiDashboard>>, TError = ErrorType<unknown>>(options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof getAiDashboard>>, TError, TData>;
     request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & {
     queryKey: QueryKey;
