@@ -1,0 +1,925 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: Gauteng GreenFlow MaaS Platform API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: transit
+    description: Multi-modal transit feed (Gautrain + Virtual Taxis)
+  - name: power
+    description: Eskom load reduction / outage data
+  - name: carbon
+    description: Carbon ledger - CO2 savings calculations
+  - name: wallet
+    description: Green Wallet - user credits and identity
+  - name: hubs
+    description: Gauteng transit hubs (stations, stops, ranks)
+  - name: routes
+    description: Power-aware route planning
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /transit/feed:
+    get:
+      operationId: getTransitFeed
+      tags: [transit]
+      summary: Unified multi-modal transit feed
+      description: Returns combined Gautrain schedule and active virtual taxi positions
+      responses:
+        "200":
+          description: Transit feed data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransitFeed"
+
+  /transit/virtual-taxis:
+    get:
+      operationId: getVirtualTaxis
+      tags: [transit]
+      summary: Active virtual taxi clusters
+      description: Returns virtual taxi positions derived from clustered GPS pings
+      responses:
+        "200":
+          description: List of active virtual taxi positions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VirtualTaxi"
+
+  /transit/virtual-taxis/ping:
+    post:
+      operationId: sendGpsPing
+      tags: [transit]
+      summary: Submit GPS ping from commuter
+      description: Submits a user GPS location ping; if 3+ users share a route, a virtual taxi is broadcast
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GpsPing"
+      responses:
+        "200":
+          description: Ping accepted, returns any newly formed virtual taxi
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PingResult"
+
+  /transit/gautrain:
+    get:
+      operationId: getGautrainSchedule
+      tags: [transit]
+      summary: Gautrain GTFS schedule
+      description: Returns current Gautrain departure schedule with partner API 2026 data
+      responses:
+        "200":
+          description: Gautrain schedule data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GautrainDeparture"
+
+  /power/status:
+    get:
+      operationId: getPowerStatus
+      tags: [power]
+      summary: Current load reduction status
+      description: Returns Eskom/City Power load reduction schedule and active outage areas
+      responses:
+        "200":
+          description: Power status data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PowerStatus"
+
+  /power/areas:
+    get:
+      operationId: getPowerAreas
+      tags: [power]
+      summary: Affected areas with friction penalties
+      description: Returns areas currently under load reduction with routing friction penalty scores
+      responses:
+        "200":
+          description: List of affected areas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PowerArea"
+
+  /routes/plan:
+    post:
+      operationId: planRoute
+      tags: [routes]
+      summary: Plan a power-aware multi-modal route
+      description: Returns optimal routes with load reduction friction penalties applied
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoutePlanRequest"
+      responses:
+        "200":
+          description: Planned route options
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RoutePlanResult"
+
+  /carbon/calculate:
+    post:
+      operationId: calculateCarbonSavings
+      tags: [carbon]
+      summary: Calculate CO2 savings for a trip
+      description: "Uses formula: Saved CO2 = (Dist × 120g) - (Dist × 35g)"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CarbonCalculateRequest"
+      responses:
+        "200":
+          description: Carbon savings result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarbonSavings"
+
+  /carbon/leaderboard:
+    get:
+      operationId: getCarbonLeaderboard
+      tags: [carbon]
+      summary: Top CO2 savers leaderboard
+      description: Returns top users ranked by cumulative CO2 savings
+      responses:
+        "200":
+          description: Leaderboard data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LeaderboardEntry"
+
+  /carbon/stats:
+    get:
+      operationId: getCarbonStats
+      tags: [carbon]
+      summary: Platform-wide carbon saving statistics
+      description: Returns aggregate CO2 savings, total trips, and equivalent trees planted
+      responses:
+        "200":
+          description: Carbon statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarbonStats"
+
+  /wallet/users:
+    get:
+      operationId: listWalletUsers
+      tags: [wallet]
+      summary: List Green Wallet users
+      description: Returns POPIA-compliant list of registered Green Wallet users
+      responses:
+        "200":
+          description: List of wallet users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WalletUser"
+    post:
+      operationId: createWalletUser
+      tags: [wallet]
+      summary: Register a new Green Wallet user
+      description: Creates POPIA-compliant Green Wallet identity with initial credits
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateWalletUserBody"
+      responses:
+        "201":
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletUser"
+
+  /wallet/users/{userId}:
+    get:
+      operationId: getWalletUser
+      tags: [wallet]
+      summary: Get a wallet user by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Wallet user details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletUser"
+
+  /wallet/users/{userId}/credits/add:
+    post:
+      operationId: addGreenCredits
+      tags: [wallet]
+      summary: Award Green Credits to a user
+      description: Awards credits for choosing multimodal paths over private cars
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddCreditsBody"
+      responses:
+        "200":
+          description: Updated wallet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletUser"
+
+  /wallet/transactions:
+    get:
+      operationId: listTransactions
+      tags: [wallet]
+      summary: List recent credit transactions
+      description: Returns recent Green Credit award history across all users
+      responses:
+        "200":
+          description: Transaction history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CreditTransaction"
+
+  /hubs:
+    get:
+      operationId: listHubs
+      tags: [hubs]
+      summary: List all Gauteng transit hubs
+      description: Returns all transit hubs with geospatial data (Gautrain stations, Metrobus stops, Taxi Ranks)
+      parameters:
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [gautrain, metrobus, taxi_rank]
+        - name: near_lat
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: near_lng
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: radius_km
+          in: query
+          required: false
+          schema:
+            type: number
+      responses:
+        "200":
+          description: List of hubs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TransitHub"
+
+  /hubs/{hubId}:
+    get:
+      operationId: getHub
+      tags: [hubs]
+      summary: Get a single transit hub
+      parameters:
+        - name: hubId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Hub details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransitHub"
+
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [carbon]
+      summary: Platform dashboard summary
+      description: Returns key metrics for the GreenFlow platform dashboard
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    TransitFeed:
+      type: object
+      properties:
+        virtualTaxis:
+          type: array
+          items:
+            $ref: "#/components/schemas/VirtualTaxi"
+        gautrainDepartures:
+          type: array
+          items:
+            $ref: "#/components/schemas/GautrainDeparture"
+        powerAlerts:
+          type: array
+          items:
+            $ref: "#/components/schemas/PowerArea"
+        timestamp:
+          type: string
+      required:
+        - virtualTaxis
+        - gautrainDepartures
+        - powerAlerts
+        - timestamp
+
+    VirtualTaxi:
+      type: object
+      properties:
+        id:
+          type: string
+        routeId:
+          type: string
+        routeName:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        passengerCount:
+          type: integer
+        destination:
+          type: string
+        origin:
+          type: string
+        estimatedArrivalMinutes:
+          type: integer
+        lastUpdated:
+          type: string
+      required:
+        - id
+        - routeId
+        - routeName
+        - latitude
+        - longitude
+        - passengerCount
+        - destination
+        - origin
+        - estimatedArrivalMinutes
+        - lastUpdated
+
+    GpsPing:
+      type: object
+      properties:
+        userId:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        routeId:
+          type: string
+        destination:
+          type: string
+      required:
+        - userId
+        - latitude
+        - longitude
+        - routeId
+        - destination
+
+    PingResult:
+      type: object
+      properties:
+        accepted:
+          type: boolean
+        virtualTaxiFormed:
+          type: boolean
+        virtualTaxi:
+          $ref: "#/components/schemas/VirtualTaxi"
+        message:
+          type: string
+      required:
+        - accepted
+        - virtualTaxiFormed
+        - message
+
+    GautrainDeparture:
+      type: object
+      properties:
+        id:
+          type: string
+        trainNumber:
+          type: string
+        origin:
+          type: string
+        destination:
+          type: string
+        departureTime:
+          type: string
+        arrivalTime:
+          type: string
+        platform:
+          type: string
+        status:
+          type: string
+          enum: [on_time, delayed, cancelled]
+        delayMinutes:
+          type: integer
+        co2SavedKg:
+          type: number
+      required:
+        - id
+        - trainNumber
+        - origin
+        - destination
+        - departureTime
+        - arrivalTime
+        - platform
+        - status
+        - delayMinutes
+        - co2SavedKg
+
+    PowerStatus:
+      type: object
+      properties:
+        loadSheddingStage:
+          type: integer
+          description: "Current Eskom stage (0 = no load shedding)"
+        activeAreas:
+          type: integer
+        nextScheduledOutage:
+          type: string
+        affectedTrafficLights:
+          type: integer
+        overallFrictionMultiplier:
+          type: number
+        lastUpdated:
+          type: string
+      required:
+        - loadSheddingStage
+        - activeAreas
+        - nextScheduledOutage
+        - affectedTrafficLights
+        - overallFrictionMultiplier
+        - lastUpdated
+
+    PowerArea:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        municipality:
+          type: string
+        stage:
+          type: integer
+        outageStart:
+          type: string
+        outageEnd:
+          type: string
+        frictionPenalty:
+          type: number
+          description: Routing friction penalty (0.0 to 1.0)
+        affectedTrafficLights:
+          type: integer
+        latitude:
+          type: number
+        longitude:
+          type: number
+      required:
+        - id
+        - name
+        - municipality
+        - stage
+        - outageStart
+        - outageEnd
+        - frictionPenalty
+        - affectedTrafficLights
+        - latitude
+        - longitude
+
+    RoutePlanRequest:
+      type: object
+      properties:
+        originLat:
+          type: number
+        originLng:
+          type: number
+        destLat:
+          type: number
+        destLng:
+          type: number
+        preferGreen:
+          type: boolean
+        userId:
+          type: string
+      required:
+        - originLat
+        - originLng
+        - destLat
+        - destLng
+        - preferGreen
+
+    RoutePlanResult:
+      type: object
+      properties:
+        routes:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlannedRoute"
+        recommendedRouteId:
+          type: string
+        powerAffectedAreas:
+          type: array
+          items:
+            type: string
+      required:
+        - routes
+        - recommendedRouteId
+        - powerAffectedAreas
+
+    PlannedRoute:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        modes:
+          type: array
+          items:
+            type: string
+        distanceKm:
+          type: number
+        durationMinutes:
+          type: integer
+        frictionPenalty:
+          type: number
+        co2SavedKg:
+          type: number
+        greenCreditsEarned:
+          type: integer
+        segments:
+          type: array
+          items:
+            $ref: "#/components/schemas/RouteSegment"
+      required:
+        - id
+        - name
+        - modes
+        - distanceKm
+        - durationMinutes
+        - frictionPenalty
+        - co2SavedKg
+        - greenCreditsEarned
+        - segments
+
+    RouteSegment:
+      type: object
+      properties:
+        mode:
+          type: string
+          enum: [walk, gautrain, virtual_taxi, metrobus]
+        fromName:
+          type: string
+        toName:
+          type: string
+        durationMinutes:
+          type: integer
+        distanceKm:
+          type: number
+        frictionPenalty:
+          type: number
+      required:
+        - mode
+        - fromName
+        - toName
+        - durationMinutes
+        - distanceKm
+        - frictionPenalty
+
+    CarbonCalculateRequest:
+      type: object
+      properties:
+        distanceKm:
+          type: number
+        mode:
+          type: string
+          enum: [virtual_taxi, gautrain, metrobus, private_car]
+        userId:
+          type: string
+      required:
+        - distanceKm
+        - mode
+
+    CarbonSavings:
+      type: object
+      properties:
+        distanceKm:
+          type: number
+        mode:
+          type: string
+        privateCarEmissionsG:
+          type: number
+        actualEmissionsG:
+          type: number
+        savedCo2G:
+          type: number
+        savedCo2Kg:
+          type: number
+        greenCreditsEarned:
+          type: integer
+        equivalentTreeDays:
+          type: number
+      required:
+        - distanceKm
+        - mode
+        - privateCarEmissionsG
+        - actualEmissionsG
+        - savedCo2G
+        - savedCo2Kg
+        - greenCreditsEarned
+        - equivalentTreeDays
+
+    LeaderboardEntry:
+      type: object
+      properties:
+        rank:
+          type: integer
+        userId:
+          type: string
+        displayName:
+          type: string
+        totalCo2SavedKg:
+          type: number
+        greenCredits:
+          type: integer
+        totalTrips:
+          type: integer
+      required:
+        - rank
+        - userId
+        - displayName
+        - totalCo2SavedKg
+        - greenCredits
+        - totalTrips
+
+    CarbonStats:
+      type: object
+      properties:
+        totalCo2SavedKg:
+          type: number
+        totalTrips:
+          type: integer
+        totalUsers:
+          type: integer
+        equivalentTreesPlanted:
+          type: number
+        averageSavingPerTripKg:
+          type: number
+        co2SavedThisWeekKg:
+          type: number
+        tripsThisWeek:
+          type: integer
+      required:
+        - totalCo2SavedKg
+        - totalTrips
+        - totalUsers
+        - equivalentTreesPlanted
+        - averageSavingPerTripKg
+        - co2SavedThisWeekKg
+        - tripsThisWeek
+
+    WalletUser:
+      type: object
+      properties:
+        id:
+          type: string
+        displayName:
+          type: string
+        maskedId:
+          type: string
+          description: POPIA-compliant masked identifier
+        greenCredits:
+          type: integer
+        totalCo2SavedKg:
+          type: number
+        totalTrips:
+          type: integer
+        preferredMode:
+          type: string
+        joinedAt:
+          type: string
+        lastTripAt:
+          type: string
+      required:
+        - id
+        - displayName
+        - maskedId
+        - greenCredits
+        - totalCo2SavedKg
+        - totalTrips
+        - preferredMode
+        - joinedAt
+
+    CreateWalletUserBody:
+      type: object
+      properties:
+        displayName:
+          type: string
+        consentGiven:
+          type: boolean
+          description: POPIA consent flag
+        preferredMode:
+          type: string
+          enum: [virtual_taxi, gautrain, metrobus, mixed]
+      required:
+        - displayName
+        - consentGiven
+        - preferredMode
+
+    AddCreditsBody:
+      type: object
+      properties:
+        credits:
+          type: integer
+        reason:
+          type: string
+        tripDistanceKm:
+          type: number
+        mode:
+          type: string
+      required:
+        - credits
+        - reason
+
+    CreditTransaction:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        displayName:
+          type: string
+        credits:
+          type: integer
+        reason:
+          type: string
+        co2SavedKg:
+          type: number
+        mode:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - userId
+        - displayName
+        - credits
+        - reason
+        - co2SavedKg
+        - mode
+        - createdAt
+
+    TransitHub:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [gautrain, metrobus, taxi_rank]
+        latitude:
+          type: number
+        longitude:
+          type: number
+        address:
+          type: string
+        suburb:
+          type: string
+        activeVirtualTaxis:
+          type: integer
+        nextGautrainDeparture:
+          type: string
+        currentPowerStatus:
+          type: string
+          enum: [normal, affected, outage]
+      required:
+        - id
+        - name
+        - type
+        - latitude
+        - longitude
+        - address
+        - suburb
+        - activeVirtualTaxis
+        - currentPowerStatus
+
+    DashboardSummary:
+      type: object
+      properties:
+        activeTaxis:
+          type: integer
+        totalCo2SavedKg:
+          type: number
+        activeUsers:
+          type: integer
+        loadSheddingStage:
+          type: integer
+        affectedAreas:
+          type: integer
+        tripsToday:
+          type: integer
+        greenCreditsAwarded:
+          type: integer
+        gautrainTripsToday:
+          type: integer
+        virtualTaxiTripsToday:
+          type: integer
+        equivalentTreesPlanted:
+          type: number
+      required:
+        - activeTaxis
+        - totalCo2SavedKg
+        - activeUsers
+        - loadSheddingStage
+        - affectedAreas
+        - tripsToday
+        - greenCreditsAwarded
+        - gautrainTripsToday
+        - virtualTaxiTripsToday
+        - equivalentTreesPlanted

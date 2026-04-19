@@ -1,0 +1,1 @@
+{"version":3,"file":"pingResult.d.ts","sourceRoot":"","sources":["../../../src/generated/types/pingResult.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AACH,OAAO,KAAK,EAAE,WAAW,EAAE,MAAM,eAAe,CAAC;AAEjD,MAAM,WAAW,UAAU;IACzB,QAAQ,EAAE,OAAO,CAAC;IAClB,iBAAiB,EAAE,OAAO,CAAC;IAC3B,WAAW,CAAC,EAAE,WAAW,CAAC;IAC1B,OAAO,EAAE,MAAM,CAAC;CACjB"}

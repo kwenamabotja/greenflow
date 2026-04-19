@@ -1,0 +1,1 @@
+{"version":3,"file":"createWalletUserBody.d.ts","sourceRoot":"","sources":["../../../src/generated/types/createWalletUserBody.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AACH,OAAO,KAAK,EAAE,iCAAiC,EAAE,MAAM,qCAAqC,CAAC;AAE7F,MAAM,WAAW,oBAAoB;IACnC,WAAW,EAAE,MAAM,CAAC;IACpB,yBAAyB;IACzB,YAAY,EAAE,OAAO,CAAC;IACtB,aAAa,EAAE,iCAAiC,CAAC;CAClD"}

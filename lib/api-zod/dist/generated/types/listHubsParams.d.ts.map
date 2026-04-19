@@ -1,0 +1,1 @@
+{"version":3,"file":"listHubsParams.d.ts","sourceRoot":"","sources":["../../../src/generated/types/listHubsParams.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AACH,OAAO,KAAK,EAAE,YAAY,EAAE,MAAM,gBAAgB,CAAC;AAEnD,MAAM,MAAM,cAAc,GAAG;IAC3B,IAAI,CAAC,EAAE,YAAY,CAAC;IACpB,QAAQ,CAAC,EAAE,MAAM,CAAC;IAClB,QAAQ,CAAC,EAAE,MAAM,CAAC;IAClB,SAAS,CAAC,EAAE,MAAM,CAAC;CACpB,CAAC"}

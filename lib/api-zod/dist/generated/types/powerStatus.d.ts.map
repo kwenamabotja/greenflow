@@ -1,0 +1,1 @@
+{"version":3,"file":"powerStatus.d.ts","sourceRoot":"","sources":["../../../src/generated/types/powerStatus.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AAEH,MAAM,WAAW,WAAW;IAC1B,iDAAiD;IACjD,iBAAiB,EAAE,MAAM,CAAC;IAC1B,WAAW,EAAE,MAAM,CAAC;IACpB,mBAAmB,EAAE,MAAM,CAAC;IAC5B,qBAAqB,EAAE,MAAM,CAAC;IAC9B,yBAAyB,EAAE,MAAM,CAAC;IAClC,WAAW,EAAE,MAAM,CAAC;CACrB"}

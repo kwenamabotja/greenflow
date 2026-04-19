@@ -1,0 +1,1 @@
+{"version":3,"file":"carbonStats.d.ts","sourceRoot":"","sources":["../../../src/generated/types/carbonStats.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AAEH,MAAM,WAAW,WAAW;IAC1B,eAAe,EAAE,MAAM,CAAC;IACxB,UAAU,EAAE,MAAM,CAAC;IACnB,UAAU,EAAE,MAAM,CAAC;IACnB,sBAAsB,EAAE,MAAM,CAAC;IAC/B,sBAAsB,EAAE,MAAM,CAAC;IAC/B,kBAAkB,EAAE,MAAM,CAAC;IAC3B,aAAa,EAAE,MAAM,CAAC;CACvB"}
