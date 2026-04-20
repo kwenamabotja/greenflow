@@ -413,3 +413,323 @@ export const GetDashboardSummaryResponse = zod.object({
   virtualTaxiTripsToday: zod.number(),
   equivalentTreesPlanted: zod.number(),
 });
+
+/**
+ * Returns predicted traffic congestion levels across Gauteng
+ * @summary AI-powered congestion predictions
+ */
+export const getCongestionPredictionsResponsePredictionsItemConfidenceMin = 0;
+export const getCongestionPredictionsResponsePredictionsItemConfidenceMax = 1;
+
+export const GetCongestionPredictionsResponse = zod.object({
+  predictions: zod
+    .array(
+      zod.object({
+        location: zod.string().optional(),
+        latitude: zod.number().optional(),
+        longitude: zod.number().optional(),
+        predictedLevel: zod
+          .enum(["low", "medium", "high", "severe"])
+          .optional(),
+        confidence: zod
+          .number()
+          .min(getCongestionPredictionsResponsePredictionsItemConfidenceMin)
+          .max(getCongestionPredictionsResponsePredictionsItemConfidenceMax)
+          .optional(),
+        timeWindow: zod
+          .object({
+            start: zod.coerce.date().optional(),
+            end: zod.coerce.date().optional(),
+          })
+          .optional(),
+        factors: zod
+          .object({
+            timeOfDay: zod.string().optional(),
+            dayOfWeek: zod.string().optional(),
+            weather: zod.string().optional(),
+            events: zod.array(zod.string()).optional(),
+            historicalAverage: zod.number().optional(),
+          })
+          .optional(),
+      }),
+    )
+    .optional(),
+  generatedAt: zod.coerce.date().optional(),
+  model: zod.string().optional(),
+});
+
+/**
+ * Returns predicted demand for virtual taxis at key locations
+ * @summary Virtual taxi demand predictions
+ */
+export const getDemandPredictionsResponsePredictionsItemPredictedDemandMin = 0;
+export const getDemandPredictionsResponsePredictionsItemPredictedDemandMax = 100;
+
+export const getDemandPredictionsResponsePredictionsItemConfidenceMin = 0;
+export const getDemandPredictionsResponsePredictionsItemConfidenceMax = 1;
+
+export const GetDemandPredictionsResponse = zod.object({
+  predictions: zod
+    .array(
+      zod.object({
+        locationId: zod.string().optional(),
+        locationName: zod.string().optional(),
+        latitude: zod.number().optional(),
+        longitude: zod.number().optional(),
+        predictedDemand: zod
+          .number()
+          .min(getDemandPredictionsResponsePredictionsItemPredictedDemandMin)
+          .max(getDemandPredictionsResponsePredictionsItemPredictedDemandMax)
+          .optional(),
+        confidence: zod
+          .number()
+          .min(getDemandPredictionsResponsePredictionsItemConfidenceMin)
+          .max(getDemandPredictionsResponsePredictionsItemConfidenceMax)
+          .optional(),
+        timeWindow: zod.string().optional(),
+        factors: zod
+          .object({
+            historicalDemand: zod.number().optional(),
+            weather: zod.string().optional(),
+            events: zod.array(zod.string()).optional(),
+            nearbyTransit: zod.array(zod.string()).optional(),
+          })
+          .optional(),
+      }),
+    )
+    .optional(),
+  generatedAt: zod.coerce.date().optional(),
+  model: zod.string().optional(),
+});
+
+/**
+ * Returns optimized route predictions with carbon impact analysis
+ * @summary AI-powered route optimization
+ */
+export const PredictRouteBody = zod.object({
+  originLat: zod.number(),
+  originLng: zod.number(),
+  destLat: zod.number(),
+  destLng: zod.number(),
+});
+
+export const predictRouteResponsePredictionConfidenceMin = 0;
+export const predictRouteResponsePredictionConfidenceMax = 1;
+
+export const predictRouteResponsePredictionAlternativeRoutesItemReliabilityMin = 0;
+export const predictRouteResponsePredictionAlternativeRoutesItemReliabilityMax = 1;
+
+export const PredictRouteResponse = zod.object({
+  prediction: zod
+    .object({
+      routeId: zod.string().optional(),
+      origin: zod.string().optional(),
+      destination: zod.string().optional(),
+      predictedDuration: zod.number().optional(),
+      predictedCarbonSavings: zod.number().optional(),
+      confidence: zod
+        .number()
+        .min(predictRouteResponsePredictionConfidenceMin)
+        .max(predictRouteResponsePredictionConfidenceMax)
+        .optional(),
+      alternativeRoutes: zod
+        .array(
+          zod.object({
+            mode: zod.string().optional(),
+            duration: zod.number().optional(),
+            carbonImpact: zod.number().optional(),
+            reliability: zod
+              .number()
+              .min(
+                predictRouteResponsePredictionAlternativeRoutesItemReliabilityMin,
+              )
+              .max(
+                predictRouteResponsePredictionAlternativeRoutesItemReliabilityMax,
+              )
+              .optional(),
+          }),
+        )
+        .optional(),
+    })
+    .optional(),
+  generatedAt: zod.coerce.date().optional(),
+  model: zod.string().optional(),
+});
+
+/**
+ * Returns predicted load shedding events across Gauteng
+ * @summary Power outage predictions
+ */
+export const getPowerOutagePredictionsResponsePredictionsItemProbabilityMin = 0;
+export const getPowerOutagePredictionsResponsePredictionsItemProbabilityMax = 1;
+
+export const getPowerOutagePredictionsResponsePredictionsItemConfidenceMin = 0;
+export const getPowerOutagePredictionsResponsePredictionsItemConfidenceMax = 1;
+
+export const GetPowerOutagePredictionsResponse = zod.object({
+  predictions: zod
+    .array(
+      zod.object({
+        area: zod.string().optional(),
+        probability: zod
+          .number()
+          .min(getPowerOutagePredictionsResponsePredictionsItemProbabilityMin)
+          .max(getPowerOutagePredictionsResponsePredictionsItemProbabilityMax)
+          .optional(),
+        predictedStage: zod.number().optional(),
+        timeWindow: zod.string().optional(),
+        confidence: zod
+          .number()
+          .min(getPowerOutagePredictionsResponsePredictionsItemConfidenceMin)
+          .max(getPowerOutagePredictionsResponsePredictionsItemConfidenceMax)
+          .optional(),
+      }),
+    )
+    .optional(),
+  generatedAt: zod.coerce.date().optional(),
+  model: zod.string().optional(),
+  disclaimer: zod.string().optional(),
+});
+
+/**
+ * Returns comprehensive AI-powered insights for platform operations
+ * @summary AI insights dashboard
+ */
+export const getAiDashboardResponseInsightsCongestionHighRiskAreasItemConfidenceMin = 0;
+export const getAiDashboardResponseInsightsCongestionHighRiskAreasItemConfidenceMax = 1;
+
+export const getAiDashboardResponseInsightsDemandHighDemandLocationsItemPredictedDemandMin = 0;
+export const getAiDashboardResponseInsightsDemandHighDemandLocationsItemPredictedDemandMax = 100;
+
+export const getAiDashboardResponseInsightsDemandHighDemandLocationsItemConfidenceMin = 0;
+export const getAiDashboardResponseInsightsDemandHighDemandLocationsItemConfidenceMax = 1;
+
+export const getAiDashboardResponseInsightsPowerHighRiskAreasItemProbabilityMin = 0;
+export const getAiDashboardResponseInsightsPowerHighRiskAreasItemProbabilityMax = 1;
+
+export const getAiDashboardResponseInsightsPowerHighRiskAreasItemConfidenceMin = 0;
+export const getAiDashboardResponseInsightsPowerHighRiskAreasItemConfidenceMax = 1;
+
+export const GetAiDashboardResponse = zod.object({
+  insights: zod
+    .object({
+      congestion: zod
+        .object({
+          highRiskAreas: zod
+            .array(
+              zod.object({
+                location: zod.string().optional(),
+                latitude: zod.number().optional(),
+                longitude: zod.number().optional(),
+                predictedLevel: zod
+                  .enum(["low", "medium", "high", "severe"])
+                  .optional(),
+                confidence: zod
+                  .number()
+                  .min(
+                    getAiDashboardResponseInsightsCongestionHighRiskAreasItemConfidenceMin,
+                  )
+                  .max(
+                    getAiDashboardResponseInsightsCongestionHighRiskAreasItemConfidenceMax,
+                  )
+                  .optional(),
+                timeWindow: zod
+                  .object({
+                    start: zod.coerce.date().optional(),
+                    end: zod.coerce.date().optional(),
+                  })
+                  .optional(),
+                factors: zod
+                  .object({
+                    timeOfDay: zod.string().optional(),
+                    dayOfWeek: zod.string().optional(),
+                    weather: zod.string().optional(),
+                    events: zod.array(zod.string()).optional(),
+                    historicalAverage: zod.number().optional(),
+                  })
+                  .optional(),
+              }),
+            )
+            .optional(),
+          totalPredictions: zod.number().optional(),
+        })
+        .optional(),
+      demand: zod
+        .object({
+          highDemandLocations: zod
+            .array(
+              zod.object({
+                locationId: zod.string().optional(),
+                locationName: zod.string().optional(),
+                latitude: zod.number().optional(),
+                longitude: zod.number().optional(),
+                predictedDemand: zod
+                  .number()
+                  .min(
+                    getAiDashboardResponseInsightsDemandHighDemandLocationsItemPredictedDemandMin,
+                  )
+                  .max(
+                    getAiDashboardResponseInsightsDemandHighDemandLocationsItemPredictedDemandMax,
+                  )
+                  .optional(),
+                confidence: zod
+                  .number()
+                  .min(
+                    getAiDashboardResponseInsightsDemandHighDemandLocationsItemConfidenceMin,
+                  )
+                  .max(
+                    getAiDashboardResponseInsightsDemandHighDemandLocationsItemConfidenceMax,
+                  )
+                  .optional(),
+                timeWindow: zod.string().optional(),
+                factors: zod
+                  .object({
+                    historicalDemand: zod.number().optional(),
+                    weather: zod.string().optional(),
+                    events: zod.array(zod.string()).optional(),
+                    nearbyTransit: zod.array(zod.string()).optional(),
+                  })
+                  .optional(),
+              }),
+            )
+            .optional(),
+          averageDemand: zod.number().optional(),
+        })
+        .optional(),
+      power: zod
+        .object({
+          highRiskAreas: zod
+            .array(
+              zod.object({
+                area: zod.string().optional(),
+                probability: zod
+                  .number()
+                  .min(
+                    getAiDashboardResponseInsightsPowerHighRiskAreasItemProbabilityMin,
+                  )
+                  .max(
+                    getAiDashboardResponseInsightsPowerHighRiskAreasItemProbabilityMax,
+                  )
+                  .optional(),
+                predictedStage: zod.number().optional(),
+                timeWindow: zod.string().optional(),
+                confidence: zod
+                  .number()
+                  .min(
+                    getAiDashboardResponseInsightsPowerHighRiskAreasItemConfidenceMin,
+                  )
+                  .max(
+                    getAiDashboardResponseInsightsPowerHighRiskAreasItemConfidenceMax,
+                  )
+                  .optional(),
+              }),
+            )
+            .optional(),
+          averageProbability: zod.number().optional(),
+        })
+        .optional(),
+    })
+    .optional(),
+  generatedAt: zod.coerce.date().optional(),
+  models: zod.array(zod.string()).optional(),
+});

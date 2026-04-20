@@ -11,10 +11,6 @@ import { logger } from "./lib/logger";
 
 const app: Express = express();
 
-if (process.env.NODE_ENV === "production") {
-  app.set("trust proxy", 1);
-}
-
 app.use(
   pinoHttp({
     logger,
@@ -38,13 +34,14 @@ app.use(
   }),
 );
 
-const clerkPublishableKey = process.env.CLERK_PUBLISHABLE_KEY;
 const skipClerk =
-  !clerkPublishableKey || clerkPublishableKey.includes("placeholder");
+  process.env.NODE_ENV !== "production" &&
+  (!process.env.CLERK_PUBLISHABLE_KEY ||
+    process.env.CLERK_PUBLISHABLE_KEY.includes("placeholder"));
 
 if (skipClerk) {
   logger.warn(
-    "Skipping Clerk middleware because CLERK_PUBLISHABLE_KEY is missing or placeholder. Auth-protected routes will allow unauthenticated access.",
+    "Skipping Clerk middleware in development because CLERK_PUBLISHABLE_KEY is missing or placeholder. Auth-protected routes will allow unauthenticated access.",
   );
 } else {
   app.use(clerkMiddleware());

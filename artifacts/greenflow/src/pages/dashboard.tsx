@@ -1,7 +1,10 @@
 import { useGetDashboardSummary, useGetTransitFeed, useGetPowerStatus } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Activity, Car, Leaf, Zap, Train, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Activity, Car, Leaf, Zap, Train, Users, Brain, ArrowRight } from "lucide-react";
+import { Link } from "wouter";
+import GautengeMap from "@/components/GautengeMap";
 
 export default function Dashboard() {
   const { data: summary, isLoading: isLoadingSummary } = useGetDashboardSummary();
@@ -74,6 +77,26 @@ export default function Dashboard() {
         </div>
       ) : null}
 
+      {/* AI Insights Quick Access */}
+      <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-800">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-blue-900 dark:text-blue-100">
+            <Brain className="w-5 h-5" />
+            AI-Powered Insights
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-blue-700 dark:text-blue-300 mb-4">
+            Access predictive analytics for traffic congestion, taxi demand, and power outages across Gauteng.
+          </p>
+          <Button asChild variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-100 dark:border-blue-700 dark:text-blue-300">
+            <Link href="/ai-insights">
+              View AI Insights <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
+          </Button>
+        </CardContent>
+      </Card>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="col-span-1 border-border">
           <CardHeader>
@@ -83,9 +106,7 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[400px] w-full bg-muted/30 rounded-md border flex items-center justify-center text-muted-foreground">
-              [Map Integration Placeholder]
-            </div>
+            <GautengeMap />
           </CardContent>
         </Card>
 

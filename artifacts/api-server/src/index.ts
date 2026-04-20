@@ -1,5 +1,7 @@
 import app from "./app";
 import { logger } from "./lib/logger";
+import { wsService } from "./lib/websocket.js";
+import { createServer } from "http";
 
 const rawPort = process.env["PORT"];
 
@@ -23,12 +25,17 @@ process.on("unhandledRejection", (reason) => {
   process.exit(1);
 });
 
-const server = app.listen(port, (err) => {
+const server = createServer(app);
+
+// Initialize WebSocket service
+wsService.initialize(server);
+
+server.listen(port, (err?: Error) => {
   if (err) {
     logger.error({ err }, "Error listening on port");
     process.exit(1);
   }
-  logger.info({ port }, "Server listening");
+  logger.info({ port }, "Server listening with WebSocket support");
 });
 
 function shutdown(signal: string) {

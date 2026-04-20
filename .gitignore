@@ -1,8 +1,11 @@
 /.idea/
 .pnpm-store/
+.env
+.env.*
+!.env.example
 
 # Install only from repo root (`pnpm install`). Matches root, artifacts/*, lib/*, scripts/, etc.
-node_modules/
+**/node_modules/
 
 # Vite dependency pre-bundle cache (under package node_modules)
 **/.vite/

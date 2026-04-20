@@ -274,6 +274,169 @@ export interface DashboardSummary {
   equivalentTreesPlanted: number;
 }
 
+export type CongestionPredictionPredictedLevel =
+  (typeof CongestionPredictionPredictedLevel)[keyof typeof CongestionPredictionPredictedLevel];
+
+export const CongestionPredictionPredictedLevel = {
+  low: "low",
+  medium: "medium",
+  high: "high",
+  severe: "severe",
+} as const;
+
+export type CongestionPredictionTimeWindow = {
+  start?: string;
+  end?: string;
+};
+
+export type CongestionPredictionFactors = {
+  timeOfDay?: string;
+  dayOfWeek?: string;
+  weather?: string;
+  events?: string[];
+  historicalAverage?: number;
+};
+
+export interface CongestionPrediction {
+  location?: string;
+  latitude?: number;
+  longitude?: number;
+  predictedLevel?: CongestionPredictionPredictedLevel;
+  /**
+   * @minimum 0
+   * @maximum 1
+   */
+  confidence?: number;
+  timeWindow?: CongestionPredictionTimeWindow;
+  factors?: CongestionPredictionFactors;
+}
+
+export interface CongestionPredictions {
+  predictions?: CongestionPrediction[];
+  generatedAt?: string;
+  model?: string;
+}
+
+export type DemandPredictionFactors = {
+  historicalDemand?: number;
+  weather?: string;
+  events?: string[];
+  nearbyTransit?: string[];
+};
+
+export interface DemandPrediction {
+  locationId?: string;
+  locationName?: string;
+  latitude?: number;
+  longitude?: number;
+  /**
+   * @minimum 0
+   * @maximum 100
+   */
+  predictedDemand?: number;
+  /**
+   * @minimum 0
+   * @maximum 1
+   */
+  confidence?: number;
+  timeWindow?: string;
+  factors?: DemandPredictionFactors;
+}
+
+export interface DemandPredictions {
+  predictions?: DemandPrediction[];
+  generatedAt?: string;
+  model?: string;
+}
+
+export interface RoutePredictionRequest {
+  originLat: number;
+  originLng: number;
+  destLat: number;
+  destLng: number;
+}
+
+export interface AlternativeRoute {
+  mode?: string;
+  duration?: number;
+  carbonImpact?: number;
+  /**
+   * @minimum 0
+   * @maximum 1
+   */
+  reliability?: number;
+}
+
+export type RoutePredictionPrediction = {
+  routeId?: string;
+  origin?: string;
+  destination?: string;
+  predictedDuration?: number;
+  predictedCarbonSavings?: number;
+  /**
+   * @minimum 0
+   * @maximum 1
+   */
+  confidence?: number;
+  alternativeRoutes?: AlternativeRoute[];
+};
+
+export interface RoutePrediction {
+  prediction?: RoutePredictionPrediction;
+  generatedAt?: string;
+  model?: string;
+}
+
+export interface PowerOutagePrediction {
+  area?: string;
+  /**
+   * @minimum 0
+   * @maximum 1
+   */
+  probability?: number;
+  predictedStage?: number;
+  timeWindow?: string;
+  /**
+   * @minimum 0
+   * @maximum 1
+   */
+  confidence?: number;
+}
+
+export interface PowerOutagePredictions {
+  predictions?: PowerOutagePrediction[];
+  generatedAt?: string;
+  model?: string;
+  disclaimer?: string;
+}
+
+export type AiDashboardInsightsCongestion = {
+  highRiskAreas?: CongestionPrediction[];
+  totalPredictions?: number;
+};
+
+export type AiDashboardInsightsDemand = {
+  highDemandLocations?: DemandPrediction[];
+  averageDemand?: number;
+};
+
+export type AiDashboardInsightsPower = {
+  highRiskAreas?: PowerOutagePrediction[];
+  averageProbability?: number;
+};
+
+export type AiDashboardInsights = {
+  congestion?: AiDashboardInsightsCongestion;
+  demand?: AiDashboardInsightsDemand;
+  power?: AiDashboardInsightsPower;
+};
+
+export interface AiDashboard {
+  insights?: AiDashboardInsights;
+  generatedAt?: string;
+  models?: string[];
+}
+
 export type ListHubsParams = {
   type?: ListHubsType;
   near_lat?: number;

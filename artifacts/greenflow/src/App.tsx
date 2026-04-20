@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { ClerkProvider, SignIn, SignUp, Show, useClerk } from "@clerk/react";
 import { Switch, Route, Redirect, Router as WouterRouter, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider, useQueryClient } from "@tanstack/react-query";
+import { setAuthTokenGetter } from "@workspace/api-client-react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Layout } from "@/components/layout/Layout";
@@ -13,6 +14,11 @@ import TransitFeed from "@/pages/transit";
 import CarbonLedger from "@/pages/carbon";
 import GreenWallet from "@/pages/green-wallet";
 import Hubs from "@/pages/hubs";
+import AiInsights from "@/pages/ai-insights";
+import Community from "@/pages/community";
+import Challenges from "@/pages/challenges";
+import Leaderboards from "@/pages/leaderboards";
+import { GpsTracking } from "@/components/gps-tracking";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient({
@@ -115,11 +121,22 @@ function ProtectedRoute({ component: Component }: { component: React.ComponentTy
 }
 
 function ClerkQueryClientCacheInvalidator() {
-  const { addListener } = useClerk();
+  const { addListener, session } = useClerk();
   const qc = useQueryClient();
   const prevUserIdRef = useRef<string | null | undefined>(undefined);
 
   useEffect(() => {
+    // Set up auth token getter for API client
+    setAuthTokenGetter(async () => {
+      try {
+        const token = await session?.getToken();
+        return token ?? null;
+      } catch (err) {
+        console.error("Failed to get auth token:", err);
+        return null;
+      }
+    });
+
     const unsubscribe = addListener(({ user }) => {
       const userId = user?.id ?? null;
       if (prevUserIdRef.current !== undefined && prevUserIdRef.current !== userId) {
@@ -128,7 +145,7 @@ function ClerkQueryClientCacheInvalidator() {
       prevUserIdRef.current = userId;
     });
     return unsubscribe;
-  }, [addListener, qc]);
+  }, [addListener, session, qc]);
 
   return null;
 }
@@ -157,6 +174,11 @@ function ClerkProviderWithRoutes() {
           <Route path="/carbon" component={() => <ProtectedRoute component={CarbonLedger} />} />
           <Route path="/green-wallet" component={() => <ProtectedRoute component={GreenWallet} />} />
           <Route path="/hubs" component={() => <ProtectedRoute component={Hubs} />} />
+          <Route path="/community" component={() => <ProtectedRoute component={Community} />} />
+          <Route path="/challenges" component={() => <ProtectedRoute component={Challenges} />} />
+          <Route path="/leaderboards" component={() => <ProtectedRoute component={Leaderboards} />} />
+          <Route path="/gps-tracking" component={() => <ProtectedRoute component={GpsTracking} />} />
+          <Route path="/ai-insights" component={() => <ProtectedRoute component={AiInsights} />} />
           <Route component={NotFound} />
         </Switch>
         <Toaster />
