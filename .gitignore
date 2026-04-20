@@ -1,0 +1,10 @@
+/.idea/
+.pnpm-store/
+
+# Install only from repo root (`pnpm install`). Matches root, artifacts/*, lib/*, scripts/, etc.
+node_modules/
+
+# Vite dependency pre-bundle cache (under package node_modules)
+**/.vite/
+
+/artifacts/api-server/.replit-artifact/

@@ -1,0 +1,15 @@
+.git
+.github
+.cursor
+**/.DS_Store
+**/node_modules
+**/dist
+**/.turbo
+**/.vite
+**/*.log
+.env
+.env.*
+!.env.example
+replit.md
+STATUS.md
+agent-transcripts
