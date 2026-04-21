@@ -28,7 +28,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    restart: "no"
+    restart: on-failure
 
   api:
     build:
@@ -59,6 +59,8 @@ services:
       timeout: 5s
       retries: 5
       start_period: 20s
+    restart: on-failure
+
 
   web:
     build:
@@ -67,6 +69,7 @@ services:
       target: web
     ports:
       - "${WEB_PORT:-8080}:80"
+    restart: on-failure
     depends_on:
       api:
         condition: service_healthy
